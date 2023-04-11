@@ -2,6 +2,8 @@
 // Use of this source code is governed by an Apache license that can be found
 // in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
@@ -190,14 +192,22 @@ class PickMethod {
       icon: '📹',
       name: 'Common picker',
       description: 'Pick images and videos.',
-      method: (BuildContext context, List<AssetEntity> assets) {
-        return AssetPicker.pickAssets(
+      method: (BuildContext context, List<AssetEntity> assets) async {
+        final List<AssetEntity>? list = await AssetPicker.pickAssets(
           context,
           pickerConfig: AssetPickerConfig(
             maxAssets: maxAssetsCount,
             selectedAssets: assets,
           ),
         );
+
+        print('before ${list?.length}');
+
+        Timer(const Duration(seconds: 1), () {
+          print('after ${list?.length}');
+        });
+
+        return list;
       },
     );
   }
